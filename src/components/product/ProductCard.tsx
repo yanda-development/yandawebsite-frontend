@@ -37,15 +37,17 @@ export default function ProductCard({
       </div>
 
       <div style={styles.details}>
-        <h3 style={styles.title}>{title}</h3>
-        <p style={styles.category}>{category}</p>
-        <p style={styles.description}>{description?.substring(0, 80)}...</p>
+        <div style={styles.textSection}>
+          <h3 style={styles.title}>{title}</h3>
+          <p style={styles.category}>{category}</p>
+          <p style={styles.description}>{description?.substring(0, 80)}...</p>
 
-        {promotion && (
-          <div style={styles.originalPriceContainer}>
-            <span style={styles.originalPrice}>R{price}</span>
-          </div>
-        )}
+          {promotion && (
+            <div style={styles.originalPriceContainer}>
+              <span style={styles.originalPrice}>R{price}</span>
+            </div>
+          )}
+        </div>
 
         <div style={styles.footer}>
           <div style={styles.priceContainer}>
@@ -122,6 +124,10 @@ const styles = {
   details: {
     padding: "16px",
   },
+  textSection: {
+    paddingLeft: "8px",
+    marginBottom: "12px",
+  },
   title: {
     fontSize: "16px",
     fontWeight: "600",
@@ -150,7 +156,7 @@ const styles = {
     marginBottom: "8px",
   },
   originalPrice: {
-    fontSize: "11px",
+    fontSize: "13px",
     color: "#ff4444",
     textDecoration: "line-through",
   },
@@ -165,7 +171,7 @@ const styles = {
     borderRadius: "20px",
   },
   price: {
-    fontSize: "15px",
+    fontSize: "14px",
     fontWeight: "500",
     color: "#39FF14",
   },

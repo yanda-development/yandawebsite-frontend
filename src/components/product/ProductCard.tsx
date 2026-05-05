@@ -3,15 +3,18 @@ import { FaHeart, FaRegHeart, FaArrowUp } from "react-icons/fa";
 import type { ProductCardProps } from "../../types/product";
 
 export default function ProductCard({
-  title,
-  category,
-  description,
-  price,
+  title = "Yanda Premium Hoodie",
+  category = "Clothing",
+  description = "Premium quality hoodie with Yanda branding. Comfortable and stylish for everyday wear.",
+  price = 7499,
+  formerPrice = 9999,
   imageUrl,
-  promotion,
+  stock = 3,
+  promotionPercentage = 25,
+  promotionName = "Summer Sale",
 }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const discountedPrice = promotion ? price * (1 - promotion / 100) : price;
+  const showStockWarning = stock > 0 && stock <= 5;
 
   return (
     <div style={styles.card}>
@@ -33,7 +36,12 @@ export default function ProductCard({
             <FaRegHeart style={styles.heartIconOutline} />
           )}
         </button>
-        {promotion && <div style={styles.promotionBadge}>-{promotion}%</div>}
+        {promotionPercentage > 0 && (
+          <div style={styles.promotionBadge}>-{promotionPercentage}%</div>
+        )}
+        {showStockWarning && (
+          <div style={styles.stockWarningBadge}>Only {stock} left</div>
+        )}
       </div>
 
       <div style={styles.details}>
@@ -41,19 +49,17 @@ export default function ProductCard({
           <h3 style={styles.title}>{title}</h3>
           <p style={styles.category}>{category}</p>
           <p style={styles.description}>{description?.substring(0, 80)}...</p>
-
-          {promotion && (
-            <div style={styles.originalPriceContainer}>
-              <span style={styles.originalPrice}>R{price}</span>
-            </div>
-          )}
         </div>
 
         <div style={styles.footer}>
-          <div style={styles.priceContainer}>
-            <span style={styles.price}>
-              R{promotion ? discountedPrice.toFixed(2) : price}
-            </span>
+          <div style={styles.priceColumn}>
+            {formerPrice && (
+              <span style={styles.formerPrice}>R{formerPrice.toFixed(2)}</span>
+            )}
+            {promotionName && (
+              <span style={styles.saleBadge}>{promotionName}</span>
+            )}
+            <span style={styles.price}>R{price.toFixed(2)}</span>
           </div>
           <button style={styles.addToCartButton}>
             <span style={styles.buttonText}>Add to Cart</span>
@@ -121,12 +127,27 @@ const styles = {
     fontSize: "12px",
     fontWeight: "bold",
   },
+  stockWarningBadge: {
+    position: "absolute" as const,
+    bottom: "12px",
+    right: "12px",
+    backgroundColor: "rgba(255, 68, 68, 0.9)",
+    color: "#fff",
+    padding: "4px 8px",
+    borderRadius: "8px",
+    fontSize: "11px",
+    fontWeight: "bold",
+  },
   details: {
     padding: "16px",
+    display: "flex",
+    flexDirection: "column" as const,
+    height: "100%",
   },
   textSection: {
-    paddingLeft: "8px",
+    paddingLeft: "3px",
     marginBottom: "12px",
+    flex: 1,
   },
   title: {
     fontSize: "16px",
@@ -152,23 +173,32 @@ const styles = {
     WebkitBoxOrient: "vertical" as const,
     overflow: "hidden",
   },
-  originalPriceContainer: {
-    marginBottom: "8px",
+  footer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    paddingLeft: "3px",
   },
-  originalPrice: {
+  priceColumn: {
+    display: "flex",
+    flexDirection: "column" as const,
+    gap: "6px",
+  },
+  formerPrice: {
     fontSize: "13px",
     color: "#ff4444",
     textDecoration: "line-through",
   },
-  footer: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  priceContainer: {
-    backgroundColor: "rgba(57, 255, 20, 0.15)",
-    padding: "4px 12px",
-    borderRadius: "20px",
+  saleBadge: {
+    backgroundColor: "rgba(255, 215, 0, 0.2)",
+    color: "#FFD700",
+    padding: "2px 6px",
+    borderRadius: "4px",
+    fontSize: "10px",
+    fontWeight: "bold",
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.5px",
+    alignSelf: "flex-start",
   },
   price: {
     fontSize: "14px",

@@ -4,9 +4,11 @@ export interface Product {
     category: string;
     description: string;
     price: number;
+    formerPrice: number;
     image_url: string;
     stock: number;
-    promotion?: number;
+    promotionPercentage: number;
+    promotionName: string;
 }
 
 export interface ProductCardProps {
@@ -15,6 +17,9 @@ export interface ProductCardProps {
     category: string;
     description: string;
     price: number;
+    formerPrice: number;
     imageUrl: string;
-    promotion?: number;
+    stock: number;
+    promotionPercentage: number;
+    promotionName: string;
 }
